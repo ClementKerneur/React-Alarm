@@ -25,6 +25,11 @@ app.use( express.static( __dirname ) );
 
 
 app.get('/alarms', function (req, res) {
+
+  if (!fs.existsSync("alarms.json")) {
+    fs.writeFile( 'alarms.json', '[]' );
+  }
+
   res.json( getConfig("alarms.json") );
 });
 

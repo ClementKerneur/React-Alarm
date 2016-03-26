@@ -1,8 +1,10 @@
 var minxinRequest = {
-	xhr: function (type, url, params, response) {
+	xhr: function (type, url, body, response) {
 		var xhr = new XMLHttpRequest();
-		console.log('passed')
+
 	    xhr.open(type, '/'+url);
+
+		xhr.setRequestHeader("Content-type", "application/json");
 
 	    xhr.onload = ( function() {
 	      if( xhr.status >= 200 && xhr.status <= 400 ) {
@@ -10,7 +12,7 @@ var minxinRequest = {
 	      }
 	    } ).bind(this);
 
-	    var datas = params ? JSON.stringify(params) : '';
+	    var datas = body ? JSON.stringify(body) : '';
 	    xhr.send(datas);
 	}
 }

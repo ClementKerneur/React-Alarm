@@ -49,23 +49,32 @@ var AlarmList = React.createClass({
     var newAlarm = {
       name : this.refs.name.value,
       time : this.refs.time.value
-    }
+    };
 
-    var tmpAlarms = this.state.alarms;
-    tmpAlarms.push(newAlarm);
+    this.xhr('post', 'alarms', newAlarm, (function (result) {
 
-    this.setState({
-      alarms: tmpAlarms
-    });
+      var tmpAlarms = this.state.alarms;
+      tmpAlarms.push(result);
+
+      this.setState({
+        alarms: tmpAlarms
+      });
+      
+    }).bind(this));
+
   },
 
   _onDeleteAlarm: function (id) {
-    var tmpAlarms = this.state.alarms;
-    tmpAlarms.splice(id, 1);
+    this.xhr('delete', 'alarms/'+id, null, (function (result) {
 
-    this.setState({
-      alarms: tmpAlarms
-    });
+      var tmpAlarms = this.state.alarms;
+      tmpAlarms.splice(result, 1);
+
+      this.setState({
+        alarms: tmpAlarms
+      });
+
+    }).bind(this));
   }
 
 });

@@ -45,10 +45,19 @@ var AlarmList = React.createClass({
     });
   },
 
-  render: function() {
-    var alarms = this.state.alarms.map( function(alarm) {
-      return <AlarmListItem data={alarm} />
+  _onDeleteAlarm: function (id) {
+    var tmpAlarms = this.state.alarms;
+    tmpAlarms.splice(id, 1);
+
+    this.setState({
+      alarms: tmpAlarms
     });
+  },
+
+  render: function() {
+    var alarms = this.state.alarms.map( (function(data, index) {
+      return <AlarmListItem data={data} key={index} index={index} onDelete={this._onDeleteAlarm}/>
+    }).bind(this) );
 
     return (
       <div>
@@ -71,7 +80,12 @@ var AlarmList = React.createClass({
 
 var AlarmListItem = React.createClass({
 
+  _onDelete: function () {
+    this.props.onDelete(this.props.index);
+  },
+
   render: function() {
+    console.log(this.props);
     return ( 
       <li className="alarm">
         <div className="description">
@@ -81,6 +95,9 @@ var AlarmListItem = React.createClass({
           <p className="time">
             {this.props.data.time}
           </p>
+        </div>
+        <div className="closeWrapper" onClick={this._onDelete}>
+          <span className="cross close"></span>
         </div>
       </li>
     );

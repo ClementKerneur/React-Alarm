@@ -1,9 +1,14 @@
- /* Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
---------------------------------------------------------------------------------------- */
+ 
+/* _______________________________________
+
+  RESET CSS (Eric Meyer v2.0)
+___________________________________________
+*/
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
 
-/*
-BLACK   : #2a2c2d / #1c1f20
+
+/*      DARK    / LIGHT
+BLACK : #2a2c2d / #1c1f20
 GREY  : #88827d / #88827d
 BLUE  : #1e6d96 / #3080b2
 */
@@ -59,71 +64,170 @@ ___________________________________________
       font-style: normal;
   }
 
+/* _______________________________________
 
-body,
-html {
-  height: 100%;
-  position: relative;
-  width: 100%;
-  display: block;
-  margin: auto;
-  font-family: 'latoregular', sans-serif;
-  font-weight: 400;
-}
+  GLOBAL DEF
+___________________________________________
+*/
+  body,
+  html {
+    height: 100%;
+    position: relative;
+    width: 100%;
+    display: block;
+    margin: auto;
+    font-family: 'latoregular', sans-serif;
+    font-weight: 400;
+  }
 
-.wrapper {
-  margin-top: 20px;
-  width: 600px;
-  margin: auto;
-  position: relative;
-  background-color: #2a2c2d;
-  color: #ffffff;
-  padding: 40px 0;
-}
+  .wrapper {
+    margin-top: 20px;
+    width: 600px;
+    margin: auto;
+    position: relative;
+    background-color: #2a2c2d;
+    color: #ffffff;
+    padding: 40px 0;
+  }
 
-h1 {
-  font-size: 40px;
-  display: block;
-  margin: 20px auto;
-  text-align: center;
-  font-family: 'latolight', sans-serif;
-}
 
-.alarms {
-  width: 100%;
-  margin: 50px 0;
-}
-.alarm {
-  position: relative;
-  padding: 30px 0;
-  transition: all .5s;
-  -webkit-transition: all .5s;
-}
-.alarm:hover,
-.alarm:focus,
-.alarm:active {
-  background-color: #3a3b3c;
-}
-.alarm::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  height: 1px;
-  width: 80%;
-  left: 10%;
-  background-color: #1c1f20;
-}
-.alarm .description {
-  padding-left: 70px;
-}
-.alarm .name {
-  font-family: 'FuturaStd-Condensed', sans-serif;
-  font-size: 24px;
-  text-transform: uppercase;
-  color: #88827d;
-}
-.alarm .time {
-  font-family: 'latohairline', sans-serif;
-  font-weight: 100;
-  font-size: 70px;
-}
+  h1 {
+    font-size: 40px;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    font-family: 'latolight', sans-serif;
+  }
+
+  .cross {
+    position: relative;
+    display: block;
+    height: 40px;
+    width: 40px;
+    background-color: transparent;
+    transition: all .5s;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    border-radius: 50px;
+    cursor: pointer;
+  }
+  .cross::after,
+  .cross::before {
+    content: "";
+    position: absolute;
+    background-color: #1e6d96;
+    transition: all .5s;
+    -webkit-transition: all .8s;
+    -moz-transition: all .8s;
+  }
+  .cross::after {
+    height: 70%;
+    width: 4px;
+    top: 15%;
+    left: 50%;
+    margin-left: -2px;
+  }
+  .cross::before {
+    width: 70%;
+    height: 4px;
+    left: 15%;
+    top: 50%;
+    margin-top: -2px;
+  }
+
+  .close {
+    transform: rotate(45deg);
+  }
+  .close::after,
+  .close::before {
+    background-color: #9b3737;
+  }
+  .closeWrapper:hover .close,
+  .closeWrapper:focus .close,
+  .closeWrapper:active .close {
+    background-color: #9b3737;
+  }
+  .closeWrapper:hover .close::after,
+  .closeWrapper:hover .close::before,
+  .closeWrapper:focus .close::after,
+  .closeWrapper:focus .close::before,
+  .closeWrapper:active .close::after, 
+  .closeWrapper:active .close::before {
+    background-color: #2a2c2d;
+  }
+
+  form {
+    text-align: center;
+  }
+  form input {
+    margin: 0 10px;
+    background-color: #88827d;
+    border: 0;
+    outline: none;
+    box-shadow: none;
+    padding: 5px;
+    color: #FFF;
+  }
+  form button {
+    background-color: #3080b2;
+    border: 0;
+    outline: none;
+    box-shadow: none;
+    padding: 5px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+  }
+
+/* _______________________________________
+
+  ALART LIST
+___________________________________________
+*/
+
+  .alarms {
+    width: 100%;
+    margin: 50px 0;
+  }
+  .alarm {
+    position: relative;
+    padding: 30px 0;
+    transition: all .5s;
+    -webkit-transition: all .5s;
+  }
+  .alarm:hover,
+  .alarm:focus,
+  .alarm:active {
+    background-color: #3a3b3c;
+  }
+  .alarm::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    height: 1px;
+    width: 80%;
+    left: 10%;
+    background-color: #1c1f20;
+  }
+  .alarm .description {
+    padding-left: 70px;
+  }
+  .alarm .name {
+    font-family: 'FuturaStd-Condensed', sans-serif;
+    font-size: 24px;
+    text-transform: uppercase;
+    color: #88827d;
+  }
+  .alarm .time {
+    font-family: 'latohairline', sans-serif;
+    font-weight: 100;
+    font-size: 70px;
+  }
+
+  .alarm:hover .closeWrapper {opacity: 1}
+  .alarm .closeWrapper {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0;
+  }
+

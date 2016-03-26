@@ -1,32 +1,16 @@
 var React = require( 'react' );
-var minxinRequest = require( '../mixins/request.js' );
 
 var AlarmList = React.createClass({
-  mixins: [minxinRequest],
-
-  getInitialState: function() {
-    return {
-      alarms: []
-    };
-  },
-
-  componentDidMount: function () {
-    this._getDatasFromServer();
-  },
 
   render: function() {
-    var alarms = this.state.alarms.map( (function(data, index) {
-      return <AlarmListItem data={data} key={index} index={index} onDelete={this._onDeleteAlarm}/>
+    var alarms = this.props.alarms.map( (function(data, index) {
+      return <AlarmListItem data={data} key={index} index={index} onDelete={this.props.onDeleteAlarm} />
     }).bind(this) );
 
     return (
       <div>
         <h1>React Alarm</h1>
-        <form onSubmit={this._onAddAlarm} >
-          <input type="text" placeholder="Name" ref="name"/>
-          <input type="text" placeholder="Time" ref="time"/>
-          <button type="submit">Add value</button>
-        </form>
+        <div className="add" onClick={this._onAddAlarm}>Add</div>
         <ul className="alarms">
           {alarms}
         </ul>
@@ -35,47 +19,10 @@ var AlarmList = React.createClass({
 
   },
 
-  _getDatasFromServer: function() {
-    this.xhr('get', 'alarms', null, (function (result) {
-      this.setState({
-          alarms: result
-      });
-    }).bind(this));
-  },
-
-  _onAddAlarm: function(event) {
-    event.preventDefault();
-
-    var newAlarm = {
-      name : this.refs.name.value,
-      time : this.refs.time.value
-    };
-
-    this.xhr('post', 'alarms', newAlarm, (function (result) {
-
-      var tmpAlarms = this.state.alarms;
-      tmpAlarms.push(result);
-
-      this.setState({
-        alarms: tmpAlarms
-      });
-      
-    }).bind(this));
-
-  },
-
-  _onDeleteAlarm: function (id) {
-    this.xhr('delete', 'alarms/'+id, null, (function (result) {
-
-      var tmpAlarms = this.state.alarms;
-      tmpAlarms.splice(result, 1);
-
-      this.setState({
-        alarms: tmpAlarms
-      });
-
-    }).bind(this));
+  _onAddAlarm: function() {
+    this.props.goTo('form');
   }
+
 
 });
 

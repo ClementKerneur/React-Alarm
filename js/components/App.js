@@ -1,5 +1,25 @@
 var React = require( 'react' );
 
+var AlarmListItem = React.createClass({
+
+  render: function() {
+    return ( 
+      <li className="alarm">
+        <div className="description">
+          <h2 className="name">
+            {this.props.data.name}
+          </h2>
+          <p className="time">
+            {this.props.data.time}
+          </p>
+        </div>
+      </li>
+    );
+  }
+
+});
+
+
 var AlarmList = React.createClass({
   getInitialState: function() {
     return {
@@ -18,18 +38,7 @@ var AlarmList = React.createClass({
 
   render: function() {
     var alarms = this.state.alarms.map( function(alarm) {
-      return ( 
-        <li className="alarm">
-          <div className="description">
-            <h2 className="name">
-              {alarm.name}
-            </h2>
-            <p className="time">
-              {alarm.time}
-            </p>
-          </div>
-        </li>
-      );
+      return <AlarmListItem data={alarm} />
     });
 
     return (
@@ -44,6 +53,7 @@ var AlarmList = React.createClass({
   }
 
 });
+
 
 var App = React.createClass({
 

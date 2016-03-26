@@ -16,17 +16,49 @@ var App = React.createClass({
 var AlarmList = React.createClass({
   getInitialState: function() {
     return {
-      alarms: [
-        {
-          name: 'wake up',
-          time: '07:30'
-        },
-        {
-          name: 'go to beach',
-          time: '16:45'
-        }
-      ]
+      alarms: []
     };
+  },
+
+  componentDidMount: function () {
+    this._getDatasFromServer();
+  },
+
+  render: function() {
+    var alarms = this.state.alarms.map( (function(data, index) {
+      return <AlarmListItem data={data} key={index} index={index} onDelete={this._onDeleteAlarm}/>
+    }).bind(this) );
+
+    return (
+      <div>
+        <h1>React Alarm</h1>
+        <form onSubmit={this._onAddAlarm} >
+          <input type="text" placeholder="Name" ref="name"/>
+          <input type="text" placeholder="Time" ref="time"/>
+          <button type="submit">Add value</button>
+        </form>
+        <ul className="alarms">
+          {alarms}
+        </ul>
+      </div>
+    );
+
+  },
+
+  _getDatasFromServer: function() {
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('get', '/alarms');
+
+    xhr.onload = ( function() {
+      if( xhr.status >= 200 && xhr.status <= 400 ) {
+        this.setState({
+          alarms: JSON.parse(xhr.responseText)
+        });
+      }
+    } ).bind(this);
+
+    xhr.send();
   },
 
   _onAddAlarm: function(event) {
@@ -52,37 +84,12 @@ var AlarmList = React.createClass({
     this.setState({
       alarms: tmpAlarms
     });
-  },
-
-  render: function() {
-    var alarms = this.state.alarms.map( (function(data, index) {
-      return <AlarmListItem data={data} key={index} index={index} onDelete={this._onDeleteAlarm}/>
-    }).bind(this) );
-
-    return (
-      <div>
-        <h1>React Alarm</h1>
-        <form onSubmit={this._onAddAlarm} >
-          <input type="text" placeholder="Name" ref="name"/>
-          <input type="text" placeholder="Time" ref="time"/>
-          <button type="submit">Add value</button>
-        </form>
-        <ul className="alarms">
-          {alarms}
-        </ul>
-      </div>
-    );
-
   }
 
 });
 
 
 var AlarmListItem = React.createClass({
-
-  _onDelete: function () {
-    this.props.onDelete(this.props.index);
-  },
 
   render: function() {
     console.log(this.props);
@@ -102,6 +109,10 @@ var AlarmListItem = React.createClass({
       </li>
     );
   }
+
+  _onDelete: function () {
+    this.props.onDelete(this.props.index);
+  },
 
 });
 

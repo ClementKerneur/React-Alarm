@@ -9,7 +9,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 
 /*      DARK    / LIGHT
 BLACK : #2a2c2d / #1c1f20
-GREY  : #88827d / #88827d
+GREY  : #3a3a3b / #88827d
 BLUE  : #1e6d96 / #3080b2
 */
 
@@ -90,7 +90,6 @@ ___________________________________________
     padding: 40px 0;
   }
 
-
   h1 {
     font-size: 40px;
     display: block;
@@ -99,84 +98,229 @@ ___________________________________________
     font-family: 'latolight', sans-serif;
   }
 
-  .cross {
-    position: relative;
-    display: block;
-    height: 40px;
-    width: 40px;
-    background-color: transparent;
-    transition: all .5s;
-    -webkit-transition: all .5s;
-    -moz-transition: all .5s;
-    border-radius: 50px;
-    cursor: pointer;
-  }
-  .cross::after,
-  .cross::before {
-    content: "";
-    position: absolute;
-    background-color: #1e6d96;
-    transition: all .5s;
-    -webkit-transition: all .8s;
-    -moz-transition: all .8s;
-  }
-  .cross::after {
-    height: 70%;
-    width: 4px;
-    top: 15%;
-    left: 50%;
-    margin-left: -2px;
-  }
-  .cross::before {
-    width: 70%;
-    height: 4px;
-    left: 15%;
-    top: 50%;
-    margin-top: -2px;
-  }
-
-  .close {
-    transform: rotate(45deg);
-  }
-  .close::after,
-  .close::before {
-    background-color: #9b3737;
-  }
-  .closeWrapper:hover .close,
-  .closeWrapper:focus .close,
-  .closeWrapper:active .close {
-    background-color: #9b3737;
-  }
-  .closeWrapper:hover .close::after,
-  .closeWrapper:hover .close::before,
-  .closeWrapper:focus .close::after,
-  .closeWrapper:focus .close::before,
-  .closeWrapper:active .close::after, 
-  .closeWrapper:active .close::before {
-    background-color: #2a2c2d;
-  }
-
-  form {
-    text-align: center;
-  }
-  form input {
-    margin: 0 10px;
-    background-color: #88827d;
-    border: 0;
-    outline: none;
-    box-shadow: none;
-    padding: 5px;
-    color: #FFF;
-  }
-  form button {
-    background-color: #3080b2;
-    border: 0;
-    outline: none;
-    box-shadow: none;
-    padding: 5px;
+  .label {
+    font-family: 'FuturaStd-Condensed', sans-serif;
+    font-size: 24px;
     text-transform: uppercase;
-    color: #FFFFFF;
+    color: #88827d;
+    display: block;
   }
+
+  .time {
+    font-family: 'latohairline', sans-serif;
+    font-weight: 100;
+    font-size: 70px;
+    color: #ffffff;
+  }
+
+  /*________________
+
+        ICON
+    ________________
+  */
+
+    .cross {
+      position: relative;
+      display: block;
+      height: 40px;
+      width: 40px;
+      background-color: transparent;
+      transition: all .5s;
+      -webkit-transition: all .5s;
+      -moz-transition: all .5s;
+      border-radius: 50px;
+      cursor: pointer;
+    }
+    .cross::after,
+    .cross::before {
+      content: "";
+      position: absolute;
+      background-color: #1e6d96;
+      transition: all .5s;
+      -webkit-transition: all .8s;
+      -moz-transition: all .8s;
+    }
+    .cross::after {
+      height: 70%;
+      width: 4px;
+      top: 15%;
+      left: 50%;
+      margin-left: -2px;
+    }
+    .cross::before {
+      width: 70%;
+      height: 4px;
+      left: 15%;
+      top: 50%;
+      margin-top: -2px;
+    }
+
+    .close {
+      transform: rotate(45deg);
+    }
+    .close::after,
+    .close::before {
+      background-color: #9b3737;
+    }
+    .closeWrapper:hover .close,
+    .closeWrapper:focus .close,
+    .closeWrapper:active .close {
+      background-color: #9b3737;
+    }
+    .closeWrapper:hover .close::after,
+    .closeWrapper:hover .close::before,
+    .closeWrapper:focus .close::after,
+    .closeWrapper:focus .close::before,
+    .closeWrapper:active .close::after, 
+    .closeWrapper:active .close::before {
+      background-color: #2a2c2d;
+    }
+
+  
+  /*________________
+
+        FORM
+    ________________
+  */
+    form .warp {
+      padding: 50px 70px;
+      position: relative;
+    }
+    form .label {
+      margin: 10px 0;
+    }
+    form input {
+      margin-bottom: 40px;
+    }
+    form input[type="text"] {
+      padding: 10px;
+      width: 100%;
+      background: transparent;
+      border-bottom: 2px solid #3080b2;
+      outline: none;
+      box-shadow: none;
+      border-top: none;
+      border-right: none;
+      border-left: none;
+      color: #FFFFFF;
+      font-family: inherit;
+      font-size: 30px;
+    }
+
+
+    form .timeWrap {
+      display: inline-block;
+      position: relative;
+    }
+    form .timeWrap2 {
+      margin-left: 20px;
+      padding-left: 30px;
+    }
+    form .timeWrap2.addZero::before {
+      left: 30px !important;
+    }
+    form .timeWrap .time {
+      background-color: transparent;
+      border: none;
+      outline: none;
+      box-shadow: none;
+      width: 120px;
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+    }
+    form .timeWrap.addZero .time {
+      padding-left: 40px;
+    }
+    form .timeWrap.addZero::before,
+    form .timeWrap2::after {
+      position: absolute;
+      font-family: 'latohairline', sans-serif;
+      font-weight: 100;
+      font-size: 70px;
+      color: #ffffff;
+    }
+    form .timeWrap.addZero::before {
+      content: '0';
+      left: 0;
+      top: 4px;
+    }
+    form .timeWrap2::after {
+      content: ":";
+      left: 0;
+      top: 0;
+    }
+
+
+    form .days {
+      font-size: 0;
+      display: block;
+      margin-bottom: 40px;
+    }
+
+    form .days li {
+      display: inline-block;
+      font-size: 30px;
+      margin-right: 6px;
+      padding: 10px;
+      border: 1px solid transparent;
+      color: #ffffff;
+      transition: all .5s;
+      -webkit-transition: all .5s;
+      cursor: pointer;
+    }
+
+    form .days li.active {
+      border-color: #3080b2;
+      color: #3080b2;
+    }
+
+
+    form .musicLabel {
+      font-size: 30px;
+      color: #ffffff;
+      margin: 0 25px 10px 5px;
+    }
+
+    form input[type="radio"] {
+      display: none;
+    }
+    form .check {
+      height: 20px;
+      width: 20px;
+      border: 2px solid #fff;
+      transition: all .5s;
+      -webkit-transition: all .5s;
+      position: relative;
+      border-radius: 20px;
+      display: inline-block;
+    }
+    form input:checked + .check,
+    form input[type="radio"]:hover + .check {
+      border-color: #3080b2;
+    }
+    form .check::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      height: 0;
+      width: 0;
+      border-radius: 20px;
+      transition: all .5s;
+      -webkit-transition: all .5s;
+    }
+
+    form input:checked + .check::before {
+      background-color: #3080b2;
+      left: 5px;
+      top: 5px;
+      height: 10px;
+      width: 10px;
+    }
+
+
+
+
 
 /* _______________________________________
 
@@ -211,16 +355,8 @@ ___________________________________________
   .alarm .description {
     padding-left: 70px;
   }
-  .alarm .name {
-    font-family: 'FuturaStd-Condensed', sans-serif;
-    font-size: 24px;
-    text-transform: uppercase;
-    color: #88827d;
-  }
-  .alarm .time {
-    font-family: 'latohairline', sans-serif;
-    font-weight: 100;
-    font-size: 70px;
+  .alarm .label {
+    padding-left: 5px;
   }
 
   .alarm:hover .closeWrapper {opacity: 1}

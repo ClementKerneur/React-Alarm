@@ -3,46 +3,57 @@ var minxinRequest = require( '../mixins/request.js' );
 var howler = require( 'howler' );
 
 var Form = React.createClass({
-  mixins: [minxinRequest],
-
   getInitialState: function () {
     return {
       name: '',
-      hour: '',
-      minutes: '',
+      hour: 0,
+      minutes: 0,
       days: [],
       music: 0
     }
   },
 
   render: function() {
+    var daysRender = ['Mo','Tu','We','Th','Fr','Sa','Su'].map((function (day, index) {
+      return <DaysSelectItem value={day} key={index} onChange={this._onChangeDays}>{day}</DaysSelectItem>
+    }).bind(this));
+
     return (
       <div>
-        <h1>Add new alarm</h1>
+        <h1>Create an alarm</h1>
         <form onSubmit={this._onSubmit}>
-          <label className="label" htmlFor="formName">ALARM NAME</label>
-          <input id="formName" type="text" name="name" placeholder="my new alarm" onChange={this._onChangeInput} value={this.state.name}/>
+          <div className="warp">
+            <label className="label" htmlFor="formName">ALARM NAME</label>
+            <input id="formName" type="text" name="name" placeholder="my new alarm" onChange={this._onChangeInput} value={this.state.name}/>
 
-          <label className="label" htmlFor="formHour">TIME</label>
-          <input id="formHour" type="number" name="hour" onChange={this._onChangeInput} value={this.state.hour} />
-          <input type="number" name="minutes" onChange={this._onChangeInput} value={this.state.minutes} />
+            <label className="label" htmlFor="formHour">TIME</label>
+            <div className={'timeWrap '+this._isLessTen(this.state.hour)}>
+              <input id="formHour" className="time" type="number" name="hour" min="0" max="23" onChange={this._onChangeInput} value={this.state.hour} />
+            </div>
+            <div className={'timeWrap timeWrap2 '+this._isLessTen(this.state.minutes)}>
+              <input type="number" className="time" name="minutes" min="0" max="59" onChange={this._onChangeInput} value={this.state.minutes} />
+            </div>
 
-          <label className="label">DATE</label>
-          <DaysSelect label="Days">
-            <DaysSelectItem value="mon" onChange={this._onChangeDays}>Mon</DaysSelectItem>
-            <DaysSelectItem value="tue" onChange={this._onChangeDays}>Tue</DaysSelectItem>
-            <DaysSelectItem value="wed" onChange={this._onChangeDays}>Wed</DaysSelectItem>
-          </ DaysSelect>
+            <DaysSelect label="Days">
+              {daysRender}
+            </ DaysSelect>
 
-          <label className="label">Music</label>
-          <input id="classic" type="radio"  value="1" name="music" onChange={this._onChangeMusic} checked={this._isActiveMusic('1')}/>
-          <label htmlFor="classic">CLassic</label>
-          <input id="funny" type="radio"  value="2" name="music" onChange={this._onChangeMusic} checked={this._isActiveMusic('2')}/>
-          <label htmlFor="funny">Funny</label>
-          <input id="modern" type="radio"  value="3" name="music" onChange={this._onChangeMusic} checked={this._isActiveMusic('3')}/>
-          <label htmlFor="modern">Modern</label>
+            <label className="label">Music</label>
 
-          <button type="submit"></button>
+            <input id="classic" type="radio"  value="1" name="music" onChange={this._onChangeMusic} checked={this._isActiveMusic('1')}/>
+            <div className="check"></div>
+            <label htmlFor="classic"  className="musicLabel">CLassic</label>
+
+            <input id="funny" type="radio"  value="2" name="music" onChange={this._onChangeMusic} checked={this._isActiveMusic('2')}/>
+            <div className="check"></div>
+            <label htmlFor="funny"  className="musicLabel">Funny</label>
+
+            <input id="modern" type="radio"  value="3" name="music" onChange={this._onChangeMusic} checked={this._isActiveMusic('3')}/>
+            <div className="check"></div>
+            <label htmlFor="modern"  className="musicLabel">Modern</label>
+          </div>
+
+          <button type="submit">Add my alarm</button>
         </form>
       </div>
     );
@@ -72,13 +83,13 @@ var Form = React.createClass({
   },
 
   _onChangeMusic: function (event) {
-    var sound = new howler.Howl({
-      urls: ['audio/'+event.target.id+'.mp3'],
-      volume: 0.8,
-      sprite: { preview: [0, 3000] }
-    });
-    sound.fade(0.0, 0.8, 500);
-    sound.play('preview');
+    // var sound = new howler.Howl({
+    //   urls: ['audio/'+event.target.id+'.mp3'],
+    //   volume: 0.8,
+    //   sprite: { preview: [0, 3000] }
+    // });
+    // sound.fade(0.0, 0.8, 500);
+    // sound.play('preview');
 
     this.setState({
       music: event.target.value
@@ -87,6 +98,10 @@ var Form = React.createClass({
 
   _isActiveMusic: function(value) {
     return value == this.state.music ? true : false;
+  },
+
+  _isLessTen: function(state) {
+    return state < 10 ? 'addZero' : '';
   },
 
   _onSubmit: function (event) {
@@ -107,12 +122,12 @@ var DaysSelect = React.createClass({
 
   render: function () {
     return (
-      <div className="daysSelect">
-        <label>{this.props.label}</label>
-        <ul>{this.props.children}</ul>
+      <div>
+        <label className="label">{this.props.label}</label>
+        <ul className="days">{this.props.children}</ul>
       </div>
     );
-  },
+  }
 
 });
 
@@ -128,7 +143,9 @@ var DaysSelectItem = React.createClass({
     var activeClass = this.state.active ? 'active' : '';
 
     return (
-      <li className={activeClass} onClick={this._onClick}>{this.props.children}</li>
+      <li className={activeClass} onClick={this._onClick}>
+        <p>{this.props.children}</p>
+      </li>
     );
   },
 

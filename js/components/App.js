@@ -1,15 +1,15 @@
-var React = require( 'react' );
-var AlarmList = require( './Alarm.js' );
-var Form = require( './Form.js' );
-var mixinRequest = require( '../mixins/request.js' );
-var mixinSound = require( '../mixins/sound.js' );
+var React       = require( 'react' );
+var AlarmList   = require( './Alarm.js' );
+var form        = require( './Form.js' );
+var mixinRequest= require( '../mixins/request.js' );
+var mixinSound  = require( '../mixins/sound.js' );
+var storage  = require( '../components/storage.js' );
 
 var App = React.createClass({
   mixins: [mixinRequest, mixinSound],
 
   getInitialState: function() {
     return {
-      page: 'index',
       params: null,
       alarms: []
     }
@@ -20,30 +20,11 @@ var App = React.createClass({
   },
 
   render: function () {
-
-    switch(this.state.page) {
-      case 'index':
-        var page = <AlarmList alarms={this.state.alarms} onDeleteAlarm={this._onDeleteAlarm} goTo={this._goTo} />
-        break;
-      case 'form':
-        var page = <Form goTo={this._goTo} params={this.state.params} onEditAlarm={this._onEditAlarm} onAddAlarm={this._onAddAlarm} />
-        break;
-      default:
-        var page = <AlarmList alarms={this.state.alarms} goTo={this._goTo} />
-    }
-
     return (
       <div className="App">
-        {page}
+        {this.props.children}
       </div>
     );
-  },
-
-  _goTo: function (page, params) {
-    this.setState({
-      page: page,
-      params: params
-    });
   },
 
   _addAlarmRing: function(hour, minutes, soundId) {
@@ -68,12 +49,10 @@ var App = React.createClass({
       results = results.map((function (result) {
         result.timer = this._addAlarmRing(result.hour, result.minutes, result.music);
         
+        storage = result;
         return result;        
       }).bind(this));
 
-      this.setState({
-          alarms: results
-      });
     }).bind(this));
   },
 
@@ -103,7 +82,7 @@ var App = React.createClass({
         alarms: tmpAlarms
       });
 
-      this._goTo('index');
+      // this._goTo('index');
 
     }).bind(this));
 
@@ -120,7 +99,7 @@ var App = React.createClass({
         alarms: tmpAlarms
       });
 
-      this._goTo('index');
+      // this._goTo('index');
 
     }).bind(this));
   }

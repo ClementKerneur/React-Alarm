@@ -1,8 +1,12 @@
 var React = require( 'react' );
+var storage  = require( '../components/storage.js' );
+console.log(storage);
 
 var AlarmList = React.createClass({
 
   render: function() {
+    console.log(this.props)
+
     var alarms = this.props.alarms.map( (function(data, index) {
       return <AlarmListItem data={data} key={index} index={index} goTo={this.props.goTo} onDelete={this.props.onDeleteAlarm} />
     }).bind(this) );

@@ -1,22 +1,20 @@
- 
 /* _______________________________________
 
   RESET CSS (Eric Meyer v2.0)
-___________________________________________
-*/
+__________________________________________*/
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
 
 
 /*      DARK    / LIGHT
-BLACK : #2a2c2d / #1c1f20
+BLACK : #1c1f20 / #2a2c2d
 GREY  : #3a3a3b / #88827d
-BLUE  : #1e6d96 / #3080b2
+BLUE  : #1e6d96 / #368dc3
 */
 
 /* _______________________________________
 
   TYPO
-___________________________________________
+__________________________________________
 */
   @font-face {
     font-family: 'FuturaStd-Condensed';
@@ -67,7 +65,7 @@ ___________________________________________
 /* _______________________________________
 
   GLOBAL DEF
-___________________________________________
+__________________________________________
 */
   body,
   html {
@@ -90,12 +88,13 @@ ___________________________________________
     padding: 40px 0;
   }
 
-  h1 {
+  .title {
     font-size: 40px;
     display: block;
     margin: 20px auto;
     text-align: center;
     font-family: 'latolight', sans-serif;
+    position: relative;
   }
 
   .label {
@@ -111,6 +110,7 @@ ___________________________________________
     font-weight: 100;
     font-size: 70px;
     color: #ffffff;
+    display: inline-block;
   }
 
   /*________________
@@ -136,7 +136,7 @@ ___________________________________________
       content: "";
       position: absolute;
       background-color: #1e6d96;
-      transition: all .5s;
+      transition: all .8s;
       -webkit-transition: all .8s;
       -moz-transition: all .8s;
     }
@@ -155,8 +155,28 @@ ___________________________________________
       margin-top: -2px;
     }
 
+    .crossWrapper {
+      position: absolute;
+      right: 70px;
+      top: 0;
+    }
+    .crossWrapper:hover .cross,
+    .crossWrapper:focus .cross,
+    .crossWrapper:active .cross {
+      background-color: #1e6d96;
+    }
+    .crossWrapper:hover .cross::after,
+    .crossWrapper:hover .cross::before,
+    .crossWrapper:focus .cross::after,
+    .crossWrapper:focus .cross::before,
+    .crossWrapper:active .cross::after, 
+    .crossWrapper:active .cross::before {
+      background-color: #2a2c2d;
+    }
+
     .close {
       transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
     }
     .close::after,
     .close::before {
@@ -176,158 +196,67 @@ ___________________________________________
       background-color: #2a2c2d;
     }
 
-  
-  /*________________
-
-        FORM
-    ________________
-  */
-    form .warp {
-      padding: 50px 70px;
-      position: relative;
-    }
-    form .label {
-      margin: 10px 0;
-    }
-    form input {
-      margin-bottom: 40px;
-    }
-    form input[type="text"] {
-      padding: 10px;
-      width: 100%;
-      background: transparent;
-      border-bottom: 2px solid #3080b2;
-      outline: none;
-      box-shadow: none;
-      border-top: none;
-      border-right: none;
-      border-left: none;
-      color: #FFFFFF;
-      font-family: inherit;
-      font-size: 30px;
-    }
-
-
-    form .timeWrap {
-      display: inline-block;
-      position: relative;
-    }
-    form .timeWrap2 {
-      margin-left: 20px;
-      padding-left: 30px;
-    }
-    form .timeWrap2.addZero::before {
-      left: 30px !important;
-    }
-    form .timeWrap .time {
-      background-color: transparent;
-      border: none;
-      outline: none;
-      box-shadow: none;
-      width: 120px;
-      box-sizing: border-box;
-      -webkit-box-sizing: border-box;
-    }
-    form .timeWrap.addZero .time {
-      padding-left: 40px;
-    }
-    form .timeWrap.addZero::before,
-    form .timeWrap2::after {
+    .backWrapper {
       position: absolute;
-      font-family: 'latohairline', sans-serif;
-      font-weight: 100;
-      font-size: 70px;
-      color: #ffffff;
-    }
-    form .timeWrap.addZero::before {
-      content: '0';
-      left: 0;
-      top: 4px;
-    }
-    form .timeWrap2::after {
-      content: ":";
-      left: 0;
-      top: 0;
-    }
-
-
-    form .days {
-      font-size: 0;
-      display: block;
-      margin-bottom: 40px;
-    }
-
-    form .days li {
-      display: inline-block;
-      font-size: 30px;
-      margin-right: 6px;
-      padding: 10px;
-      border: 1px solid transparent;
-      color: #ffffff;
-      transition: all .5s;
-      -webkit-transition: all .5s;
+      left: 70px;
+      top: 50%;
+      margin-top: -7px;
+      height: 15px;
+      width: 25px;
       cursor: pointer;
     }
-
-    form .days li.active {
-      border-color: #3080b2;
-      color: #3080b2;
+    .backWrapper:hover .back,
+    .backWrapper:focus .back,
+    .backWrapper:active .back,
+    .backWrapper:hover .back::after,
+    .backWrapper:focus .back::after,
+    .backWrapper:active .back::after,
+    .backWrapper:hover .back::before,
+    .backWrapper:focus .back::before,
+    .backWrapper:active .back::before  {
+      background-color: #ffffff;
     }
 
-
-    form .musicLabel {
-      font-size: 30px;
-      color: #ffffff;
-      margin: 0 25px 10px 5px;
-    }
-
-    form input[type="radio"] {
-      display: none;
-    }
-    form .check {
-      height: 20px;
+    .back {
+      height: 2px;
       width: 20px;
-      border: 2px solid #fff;
-      transition: all .5s;
-      -webkit-transition: all .5s;
+      background-color: #368dc3;
       position: relative;
-      border-radius: 20px;
-      display: inline-block;
+      display: block;
+      transition: all .4s;
+      -webkit-transition: all .4s;
+      -moz-transition: all .4s;
+      margin-top: 6px;
+      margin-left: 3px;
     }
-    form input:checked + .check,
-    form input[type="radio"]:hover + .check {
-      border-color: #3080b2;
-    }
-    form .check::before {
-      content: "";
+    .back::before,
+    .back::after {
+      content: '';
       position: absolute;
-      left: 10px;
-      top: 10px;
-      height: 0;
-      width: 0;
-      border-radius: 20px;
-      transition: all .5s;
-      -webkit-transition: all .5s;
-    }
-
-    form input:checked + .check::before {
-      background-color: #3080b2;
-      left: 5px;
-      top: 5px;
-      height: 10px;
+      background-color: #368dc3;
+      height: 2px;
       width: 10px;
+      left: -3px;
+      transition: all .4s;
+      -webkit-transition: all .4s;
+      -moz-transition: all .4s;
     }
-
-
-
-
+    .back::before {
+      top: 3px;
+      transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+    }
+    .back::after {
+      top: -3px;
+      transform: rotate(-45deg);
+      -webkit-transform: rotate(-45deg);
+    }
 
 /* _______________________________________
 
-  ALART LIST
-___________________________________________
+  TYPE - ALART LIST
+__________________________________________
 */
-
   .alarms {
     width: 100%;
     margin: 50px 0;
@@ -359,11 +288,200 @@ ___________________________________________
     padding-left: 5px;
   }
 
+  .alarm .listDay {
+    font-size: 20px;
+    color: #368dc3;
+    margin-left: 5px;
+  }
+  .alarm .listDay span {
+    margin-right: 5px;
+  }
+
   .alarm:hover .closeWrapper {opacity: 1}
   .alarm .closeWrapper {
     position: absolute;
     top: 10px;
     right: 10px;
     opacity: 0;
+  }
+
+/* _______________________________________
+
+  TYPE - FORM
+__________________________________________*/
+  form {
+    padding: 50px 70px;
+    position: relative;
+  }
+  form .label {
+    margin: 10px 0;
+  }
+  form input {
+    margin-bottom: 40px;
+  }
+  form input[type="text"] {
+    padding: 10px;
+    width: 100%;
+    background: transparent;
+    border-bottom: 2px solid #368dc3;
+    outline: none;
+    box-shadow: none;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    color: #FFFFFF;
+    font-family: inherit;
+    font-size: 30px;
+  }
+
+
+  form .timeWrap {
+    display: inline-block;
+    position: relative;
+  }
+  form .timeWrap2 {
+    margin-left: 20px;
+    padding-left: 30px;
+  }
+  form .timeWrap2.addZero::before {
+    left: 30px !important;
+  }
+  form .timeWrap .time {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    width: 120px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+  }
+  form .timeWrap.addZero .time {
+    padding-left: 40px;
+  }
+  form .timeWrap.addZero::before,
+  form .timeWrap2::after {
+    position: absolute;
+    font-family: 'latohairline', sans-serif;
+    font-weight: 100;
+    font-size: 70px;
+    color: #ffffff;
+  }
+  form .timeWrap.addZero::before {
+    content: '0';
+    left: 0;
+    top: 4px;
+  }
+  form .timeWrap2::after {
+    content: ":";
+    left: -10px;
+    top: 0;
+  }
+
+
+  form .days {
+    font-size: 0;
+    display: block;
+    margin-bottom: 40px;
+  }
+
+  form .days li {
+    display: inline-block;
+    font-size: 30px;
+    margin-right: 6px;
+    padding: 10px;
+    border: 1px solid transparent;
+    color: #ffffff;
+    transition: all .5s;
+    -webkit-transition: all .5s;
+    cursor: pointer;
+  }
+  form .days li:hover,
+  form .days li.active {
+    color: #368dc3;
+  }
+  form .days li.active {
+    border-color: #368dc3;
+  }
+
+  form .radioWrap {
+    position: relative;
+    display: inline-block;
+  }
+  form .musicLabel {
+    font-size: 30px;
+    color: #ffffff;
+    margin-right: 25px;
+    padding: 5px 5px 5px 25px;
+    display: block;
+    position: relative;
+    z-index: 10;
+    cursor: pointer;
+  }
+
+  form input[type="radio"] {
+    position: absolute;
+    visibility: hidden;
+  }
+  form .check {
+    height: 16px;
+    width: 16px;
+    border: 2px solid #fff;
+    transition: all .5s;
+    -webkit-transition: all .5s;
+    position: relative;
+    border-radius: 20px;
+    position: absolute;
+    left: 0;
+    top: 11px;
+    display: block;
+    z-index: 5;
+  }
+  form input:checked + .check,
+  form .radioWrap:hover .check {
+    border-color: #368dc3;
+  }
+  form .check::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    height: 0;
+    width: 0;
+    border-radius: 20px;
+    transition: all .5s;
+    -webkit-transition: all .5s;
+  }
+
+  form input:checked + .check::before {
+    background-color: #368dc3;
+    left: 3px;
+    top: 3px;
+    height: 10px;
+    width: 10px;
+  }
+
+
+  form button {
+    text-transform: uppercase;
+    font-size: 40px;
+    font-family: 'FuturaStd-Condensed', sans-serif;
+    text-transform: uppercase;
+    display: block;
+    background-color: #3a3a3b;
+    cursor: pointer;
+    color: #ffffff;
+    width: 100%;
+    border: 0;
+    padding: 10px;
+    transition: all .5s;
+    -webkit-transition: all .5s;
+    margin-top: 60px;
+  }
+  form button:hover,
+  form button:active,
+  form button:focus {
+    /*background-color: #1e6d96;*/
+    background-color: #368dc3;
+    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.2) inset;
   }
 

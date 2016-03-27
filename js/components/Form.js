@@ -19,7 +19,6 @@ var Form = React.createClass({
   },
 
   render: function() {
-
     var daysRender = ['Mo','Tu','We','Th','Fr','Sa','Su'].map((function (day, index) {
       return <DaysSelectItem value={day} key={index} onChange={this._onChangeDays}>{day}</DaysSelectItem>
     }).bind(this));
@@ -29,9 +28,16 @@ var Form = React.createClass({
 
     return (
       <div>
-        <h1>{title}</h1>
+
+        <div className="title">
+          <h1>{title}</h1>
+          <div className="backWrapper" onClick={this._onClickBack}>
+            <span className="back"></span>
+          </div>
+        </div>
+        
         <form onSubmit={this._onSubmit}>
-          <div className="warp">
+
             <label className="label" htmlFor="formName">ALARM NAME</label>
             <input id="formName" type="text" name="name" placeholder="my new alarm" onChange={this._onChangeInput} value={this.state.name}/>
 
@@ -49,18 +55,23 @@ var Form = React.createClass({
 
             <label className="label">Music</label>
 
-            <input id="classic" type="radio"  value="1" name="music" onChange={this._onChangeMusic} checked={this._isActiveMusic('1')}/>
-            <div className="check"></div>
-            <label htmlFor="classic"  className="musicLabel">CLassic</label>
+            <div className="radioWrap">
+              <input id="classic" type="radio"  value="1" name="music" onChange={this._onChangeMusic} checked={this._isActiveMusic('1')}/>
+              <div className="check"></div>
+              <label htmlFor="classic"  className="musicLabel">CLassic</label>
+            </div>
 
-            <input id="funny" type="radio"  value="2" name="music" onChange={this._onChangeMusic} checked={this._isActiveMusic('2')}/>
-            <div className="check"></div>
-            <label htmlFor="funny"  className="musicLabel">Funny</label>
+            <div className="radioWrap">
+              <input id="funny" type="radio"  value="2" name="music" onChange={this._onChangeMusic} checked={this._isActiveMusic('2')}/>
+              <div className="check"></div>
+              <label htmlFor="funny"  className="musicLabel">Funny</label>
+            </div>
 
-            <input id="modern" type="radio"  value="3" name="music" onChange={this._onChangeMusic} checked={this._isActiveMusic('3')}/>
-            <div className="check"></div>
-            <label htmlFor="modern"  className="musicLabel">Modern</label>
-          </div>
+            <div className="radioWrap">
+              <input id="modern" type="radio"  value="3" name="music" onChange={this._onChangeMusic} checked={this._isActiveMusic('3')}/>
+              <div className="check"></div>
+              <label htmlFor="modern"  className="musicLabel">Modern</label>
+            </div>
 
           <button type="submit">{titleSubmit}</button>
         </form>
@@ -92,13 +103,13 @@ var Form = React.createClass({
   },
 
   _onChangeMusic: function (event) {
-    // var sound = new howler.Howl({
-    //   urls: ['audio/'+event.target.id+'.mp3'],
-    //   volume: 0.8,
-    //   sprite: { preview: [0, 3000] }
-    // });
-    // sound.fade(0.0, 0.8, 500);
-    // sound.play('preview');
+    var sound = new howler.Howl({
+      urls: ['audio/'+event.target.id+'.mp3'],
+      volume: 0.8,
+      sprite: { preview: [0, 3000] }
+    });
+    sound.fade(0.0, 0.8, 500);
+    sound.play('preview');
 
     this.setState({
       music: event.target.value
@@ -117,6 +128,10 @@ var Form = React.createClass({
     event.preventDefault();
 
     this.props.params ? this.props.onEditAlarm(this.state) : this.props.onAddAlarm(this.state);
+  },
+
+  _onClickBack: function() {
+    this.props.goTo('index');
   }
 
 });

@@ -9,8 +9,13 @@ var AlarmList = React.createClass({
 
     return (
       <div>
-        <h1>React Alarm</h1>
-        <div className="add" onClick={this._onAddAlarm}>Add</div>
+        <div className="title">
+          <h1>React Alarm</h1>
+          <div className="crossWrapper" title="add an alarm" onClick={this._onAddAlarm}>
+             <span className="cross"></span>
+          </div>
+        </div>
+
         <ul className="alarms">
           {alarms}
         </ul>
@@ -37,14 +42,21 @@ var AlarmListItem = React.createClass({
   },
 
   render: function() {
+    var listDay = this.props.data.days.map(function (data) {
+      return data+" ";
+    })
+
     return ( 
-      <li className="alarm" onClick={this._onEdit}>
+      <li className="alarm">
         <div className="description">
-          <h2 className="label">
+          <h2 className="label" onClick={this._onEdit}>
             {this.props.data.name}
           </h2>
           <p className="time">
             {this.addZero(this.props.data.hour)} : {this.addZero(this.props.data.minutes)}
+          </p>
+          <p className="listDay">
+            {listDay}
           </p>
         </div>
         <div className="closeWrapper" onClick={this._onDelete}>
@@ -61,6 +73,7 @@ var AlarmListItem = React.createClass({
   _onEdit: function() {
     tmpAlarm = this.props.data;
     tmpAlarm.id = this.props.index;
+    console.log(tmpAlarm);
   
     this.props.goTo('form', tmpAlarm);
   }

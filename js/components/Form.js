@@ -13,15 +13,44 @@ var Form = React.createClass({
         name: '',
         hour: 0,
         minutes: 0,
-        days: [],
+        days: [
+          {
+            title:'Mo',
+            active: false
+          },
+          {
+            title:'Tu',
+            active: false
+          },
+          {
+            title:'We',
+            active: false
+          },
+          {
+            title:'Th',
+            active: false
+          },
+          {
+            title:'Fr',
+            active: false
+          },
+          {
+            title:'Sa',
+            active: false
+          },
+          {
+            title:'Su',
+            active: false
+          }
+        ],
         music: 0
       }
     }
   },
 
   render: function() {
-    var daysRender = ['Mo','Tu','We','Th','Fr','Sa','Su'].map((function (day, index) {
-      return <DaysSelectItem value={day} key={index} onChange={this._onChangeDays}>{day}</DaysSelectItem>
+    var daysRender = this.state.days.map((function (data, index) {
+      return <DaysSelectItem data={data} key={index} index={index} onChange={this._onChangeDays} />
     }).bind(this));
 
     var title =  this.props.params ? 'Edit this alarm': 'Create new alarm';
@@ -89,14 +118,8 @@ var Form = React.createClass({
 
   _onChangeDays: function (value) {
     var tmpDays = this.state.days
-    var index = tmpDays.indexOf( value )
-
-    if( index == -1 ) {
-      tmpDays.push( value );
-    }
-    else {
-      tmpDays.splice( index, 1 );
-    }
+    
+    tmpDays[value].active = tmpDays[value].active ? false : true;
 
     this.setState({
       days: tmpDays
@@ -146,29 +169,18 @@ var DaysSelect = React.createClass({
 
 var DaysSelectItem = React.createClass({
 
-  getInitialState: function () {
-    return {
-      active: false
-    }
-  },
-
   render: function () {
-    var activeClass = this.state.active ? 'active' : '';
+    var activeClass = this.props.data.active ? 'active' : '';
 
     return (
       <li className={activeClass} onClick={this._onClick}>
-        <p>{this.props.children}</p>
+        <p>{this.props.data.title}</p>
       </li>
     );
   },
 
   _onClick: function () {
-
-    this.props.onChange( this.props.value );
-
-    this.setState({
-      active: !this.state.active
-    });
+    this.props.onChange( this.props.index );
   }
 });
 

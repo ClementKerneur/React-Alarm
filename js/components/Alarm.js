@@ -43,7 +43,7 @@ var AlarmListItem = React.createClass({
 
   render: function() {
     var listDay = this.props.data.days.map(function (data) {
-      return data+" ";
+      return data.active ? data.title+" " : "";
     })
 
     return ( 

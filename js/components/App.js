@@ -1,10 +1,11 @@
 var React = require( 'react' );
 var AlarmList = require( './Alarm.js' );
 var Form = require( './Form.js' );
-var minxinRequest = require( '../mixins/request.js' );
+var mixinRequest = require( '../mixins/request.js' );
+var mixinSound = require( '../mixins/sound.js' );
 
 var App = React.createClass({
-  mixins: [minxinRequest],
+  mixins: [mixinRequest, mixinSound],
 
   getInitialState: function() {
     return {
@@ -45,16 +46,41 @@ var App = React.createClass({
     });
   },
 
+  _addAlarmRing: function(hour, minutes, soundId) {
+    now = new Date;
+    alarmTime = new Date;
+    alarmTime.setHours(Number(hour), Number(minutes), 0);
+    
+    if( alarmTime > now ) {
+      whenDring = alarmTime.getTime() - now.getTime();
+
+      return setTimeout( ( function() {
+        this.playMusicById(soundId).play();
+      }).bind(this), whenDring);
+    }
+    return false;
+  },
+
   _getDatasFromServer: function() {
-    this.xhr('get', 'alarms', null, (function (result) {
+    this.xhr('get', 'alarms', null, (function (results) {
+
+
+      results = results.map((function (result) {
+        result.timer = this._addAlarmRing(result.hour, result.minutes, result.music);
+        
+        return result;        
+      }).bind(this));
+
       this.setState({
-          alarms: result
+          alarms: results
       });
     }).bind(this));
   },
 
   _onDeleteAlarm: function (id) {
     this.xhr('delete', 'alarms/'+id, null, (function (result) {
+      console.log( this.state.alarms[id].timer );
+      clearTimeout(this.state.alarms[id].timer);
 
       var tmpAlarms = this.state.alarms;
       tmpAlarms.splice(result, 1);
@@ -70,6 +96,8 @@ var App = React.createClass({
   _onAddAlarm: function (newAlarm) {
     this.xhr('post', 'alarms', newAlarm, (function (result) {
 
+      result.timer = this._addAlarmRing(result.hour, result.minutes, result.music);
+
       var tmpAlarms = this.state.alarms.concat(result);
       this.setState({
         alarms: tmpAlarms
@@ -83,6 +111,8 @@ var App = React.createClass({
 
   _onEditAlarm: function (editAlarm) {
     this.xhr('PATCH', 'alarms/'+editAlarm.id, editAlarm, (function (result) {
+      clearTimeout(this.state.alarms[editAlarm.id].timer);
+      result.timer = this._addAlarmRing(result.hour, result.minutes, result.music);
 
       var tmpAlarms = this.state.alarms;
       tmpAlarms[editAlarm.id] = editAlarm;

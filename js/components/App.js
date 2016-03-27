@@ -24,7 +24,7 @@ var App = React.createClass({
         var page = <AlarmList alarms={this.state.alarms} onDeleteAlarm={this._onDeleteAlarm} goTo={this._goTo} />
         break;
       case 'form':
-        var page = <Form goTo={this._goTo} />
+        var page = <Form goTo={this._goTo} onAddAlarm={this._onAddAlarm} />
         break;
       default:
         var page = <AlarmList alarms={this.state.alarms} goTo={this._goTo} />
@@ -62,7 +62,22 @@ var App = React.createClass({
       });
 
     }).bind(this));
+
+  },
+
+  _onAddAlarm: function (name, time) {
+    this.xhr('post', 'alarms', { name: name, time: time }, (function (result) {
+      
+      var tmpAlarms = this.state.alarms.concat(result);
+      this.setState({
+        alarms: tmpAlarms
+      });
+
+      this._goTo('index');
+
+    }).bind(this));
   }
+
 
 });
 

@@ -1,4 +1,4 @@
-var minxinRequest = {
+var mixinRequest = {
 	xhr: function (type, url, body, response) {
 		var xhr = new XMLHttpRequest();
 
@@ -17,4 +17,4 @@ var minxinRequest = {
 	}
 }
 
-module.exports = minxinRequest;
+module.exports = mixinRequest;

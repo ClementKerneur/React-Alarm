@@ -1,8 +1,9 @@
 var React = require( 'react' );
-var minxinRequest = require( '../mixins/request.js' );
-var howler = require( 'howler' );
+var mixinSound = require( '../mixins/sound.js' );
 
 var Form = React.createClass({
+  mixins: [ mixinSound ],
+
   getInitialState: function () {
     if (this.props.params) {
       return this.props.params;
@@ -103,13 +104,7 @@ var Form = React.createClass({
   },
 
   _onChangeMusic: function (event) {
-    var sound = new howler.Howl({
-      urls: ['audio/'+event.target.id+'.mp3'],
-      volume: 0.8,
-      sprite: { preview: [0, 3000] }
-    });
-    sound.fade(0.0, 0.8, 500);
-    sound.play('preview');
+    this.playMusicById(event.target.value).play();
 
     this.setState({
       music: event.target.value

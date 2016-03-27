@@ -18,9 +18,9 @@ var Form = React.createClass({
       <div>
         <h1>Add new alarm</h1>
         <form onSubmit={this._onSubmit}>
-          <input type="text" onChange={this._onChangeName} value={this.state.name} />
-          <input type="number" onChange={this._onChangeHour} value={this.state.hour} />
-          <input type="number" onChange={this._onChangeMinutes} value={this.state.minutes} />
+          <input type="text" onChange={this._onChangeInput} name="name" value={this.state.name} />
+          <input type="number" onChange={this._onChangeInput} name="hour" value={this.state.hour} />
+          <input type="number" onChange={this._onChangeInput} name="minutes" value={this.state.minutes} />
           <DaysSelect label="Days">
             <DaysSelectItem value="mon" onChange={this._onChangeDays}>Mon</DaysSelectItem>
             <DaysSelectItem value="tue" onChange={this._onChangeDays}>Tue</DaysSelectItem>
@@ -33,27 +33,9 @@ var Form = React.createClass({
 
   },
 
-  _onAddAlarm: function(event) {
-    event.preventDefault();
-
-    this.props.parent._GoToForm();
-  },
-
-  _onChangeName: function(event) {
+  _onChangeInput: function(event) {
     this.setState({
-      name: event.target.value
-    });
-  },
-
-  _onChangeHour: function(event) {
-    this.setState({
-      hour: event.target.value
-    });
-  },
-
-  _onChangeMinutes: function(event) {
-    this.setState({
-      minutes: event.target.value
+      [event.target.name]: event.target.value
     });
   },
 
@@ -67,8 +49,6 @@ var Form = React.createClass({
     else {
       tmpDays.splice( index, 1 );
     }
-
-    console.log(tmpDays);
 
     this.setState({
       days: tmpDays
@@ -112,14 +92,7 @@ var DaysSelectItem = React.createClass({
   },
 
   render: function () {
-
-    if( this.state.active ) {
-      var activeClass = "active";
-    }
-    else {
-      var activeClass = "";
-    }
-
+    var activeClass = this.state.active ? 'active' : '';
 
     return (
       <li className={activeClass} onClick={this._onClick}>{this.props.children}</li>

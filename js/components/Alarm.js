@@ -44,7 +44,7 @@ var AlarmListItem = React.createClass({
             {this.props.data.name}
           </h2>
           <p className="time">
-            {this.pad(this.props.data.hour)}:{this.pad(this.props.data.minutes)}
+            {this.pad(this.props.data.hour)} : {this.pad(this.props.data.minutes)}
           </p>
         </div>
         <div className="closeWrapper" onClick={this._onDelete}>

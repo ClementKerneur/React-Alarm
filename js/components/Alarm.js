@@ -29,6 +29,12 @@ var AlarmList = React.createClass({
 
 var AlarmListItem = React.createClass({
 
+  pad : function (n) {
+    if (n < 10)
+        return "0" + n;
+    return n;
+  },
+
   render: function() {
     return ( 
       <li className="alarm">
@@ -37,7 +43,7 @@ var AlarmListItem = React.createClass({
             {this.props.data.name}
           </h2>
           <p className="time">
-            {this.props.data.time}
+            {this.pad(this.props.data.hour)}:{this.pad(this.props.data.minutes)}
           </p>
         </div>
         <div className="closeWrapper" onClick={this._onDelete}>

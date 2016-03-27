@@ -1,12 +1,6 @@
 var React = require( 'react' );
 var minxinRequest = require( '../mixins/request.js' );
 
-function pad(n) {
-    if (n < 10)
-        return "0" + n;
-    return n;
-}
-
 var Form = React.createClass({
   mixins: [minxinRequest],
 
@@ -85,9 +79,13 @@ var Form = React.createClass({
     event.preventDefault();
  
     var days = this.state.days;
-    var time = pad(this.state.hour)+':'+pad(this.state.minutes);  
  
-    this.props.onAddAlarm(this.state.name, time, days);
+    this.props.onAddAlarm({
+      name: this.state.name,
+      hour: this.state.hour,
+      minutes: this.state.minutes,
+      days: days
+    });
   }
 
 });

@@ -43,6 +43,16 @@ app.post('/alarms', function (req, res) {
   res.json( newAlarm );
 });
 
+app.patch('/alarms/:id', function (req, res) {
+  var editAlarm = req.body;
+  
+  var resTmp = getConfig("alarms.json");
+  resTmp[req.params.id] = editAlarm;
+  fs.writeFile( 'alarms.json', JSON.stringify(resTmp) );
+
+  res.json( editAlarm );
+});
+
 app.delete('/alarms/:id', function (req, res) {
   var resTmp = getConfig("alarms.json");
   resTmp.splice(req.params.id, 1);

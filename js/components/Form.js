@@ -6,19 +6,30 @@ var Form = React.createClass({
   mixins: [minxinRequest],
 
   getInitialState: function () {
-    return {
-      name: '',
-      hour: '',
-      minutes: '',
-      days: [],
-      music: 0
+
+    if (this.props.params) {
+      return this.props.params;
+    }
+    else {
+      return {
+        name: '',
+        hour: '',
+        minutes: '',
+        days: [],
+        music: 0
+      }
     }
   },
 
   render: function() {
+
+    console.log ( this.props.params )
+
+    var label =  this.props.params ? 'Edit this alarm': 'Add new alarm';
+
     return (
       <div>
-        <h1>Add new alarm</h1>
+        <h1>{label}</h1>
         <form onSubmit={this._onSubmit}>
           <label className="label" htmlFor="formName">ALARM NAME</label>
           <input id="formName" type="text" name="name" placeholder="my new alarm" onChange={this._onChangeInput} value={this.state.name}/>
@@ -91,14 +102,8 @@ var Form = React.createClass({
 
   _onSubmit: function (event) {
     event.preventDefault();
- 
-    this.props.onAddAlarm({
-      name: this.state.name,
-      hour: this.state.hour,
-      minutes: this.state.minutes,
-      days: this.state.days,
-      music: this.state.music
-    });
+
+    this.props.params ? this.props.onEditAlarm(this.state) : this.props.onAddAlarm(this.state);
   }
 
 });

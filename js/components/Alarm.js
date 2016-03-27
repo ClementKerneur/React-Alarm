@@ -4,7 +4,7 @@ var AlarmList = React.createClass({
 
   render: function() {
     var alarms = this.props.alarms.map( (function(data, index) {
-      return <AlarmListItem data={data} key={index} index={index} onDelete={this.props.onDeleteAlarm} />
+      return <AlarmListItem data={data} key={index} index={index} goTo={this.props.goTo} onDelete={this.props.onDeleteAlarm} />
     }).bind(this) );
 
     return (
@@ -21,7 +21,7 @@ var AlarmList = React.createClass({
 
   _onAddAlarm: function() {
     this.props.goTo('form');
-  }
+  },
 
 
 });
@@ -38,7 +38,7 @@ var AlarmListItem = React.createClass({
 
   render: function() {
     return ( 
-      <li className="alarm">
+      <li className="alarm" onClick={this._onEdit}>
         <div className="description">
           <h2 className="label">
             {this.props.data.name}
@@ -56,6 +56,13 @@ var AlarmListItem = React.createClass({
 
   _onDelete: function () {
     this.props.onDelete(this.props.index);
+  },
+
+  _onEdit: function() {
+    tmpAlarm = this.props.data;
+    tmpAlarm.id = this.props.index;
+  
+    this.props.goTo('form', tmpAlarm);
   }
 
 });

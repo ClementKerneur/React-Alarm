@@ -4,23 +4,32 @@ var howler = require( 'howler' );
 
 var Form = React.createClass({
   getInitialState: function () {
-    return {
-      name: '',
-      hour: 0,
-      minutes: 0,
-      days: [],
-      music: 0
+    if (this.props.params) {
+      return this.props.params;
+    }
+    else {
+      return {
+        name: '',
+        hour: 0,
+        minutes: 0,
+        days: [],
+        music: 0
+      }
     }
   },
 
   render: function() {
+
     var daysRender = ['Mo','Tu','We','Th','Fr','Sa','Su'].map((function (day, index) {
       return <DaysSelectItem value={day} key={index} onChange={this._onChangeDays}>{day}</DaysSelectItem>
     }).bind(this));
 
+    var title =  this.props.params ? 'Edit this alarm': 'Create new alarm';
+    var titleSubmit =  this.props.params ? 'Update alarm': 'Add alarm';
+
     return (
       <div>
-        <h1>Create an alarm</h1>
+        <h1>{title}</h1>
         <form onSubmit={this._onSubmit}>
           <div className="warp">
             <label className="label" htmlFor="formName">ALARM NAME</label>
@@ -53,7 +62,7 @@ var Form = React.createClass({
             <label htmlFor="modern"  className="musicLabel">Modern</label>
           </div>
 
-          <button type="submit">Add my alarm</button>
+          <button type="submit">{titleSubmit}</button>
         </form>
       </div>
     );
@@ -106,14 +115,8 @@ var Form = React.createClass({
 
   _onSubmit: function (event) {
     event.preventDefault();
- 
-    this.props.onAddAlarm({
-      name: this.state.name,
-      hour: this.state.hour,
-      minutes: this.state.minutes,
-      days: this.state.days,
-      music: this.state.music
-    });
+
+    this.props.params ? this.props.onEditAlarm(this.state) : this.props.onAddAlarm(this.state);
   }
 
 });

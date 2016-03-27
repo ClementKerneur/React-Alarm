@@ -9,6 +9,7 @@ var App = React.createClass({
   getInitialState: function() {
     return {
       page: 'index',
+      params: null,
       alarms: []
     }
   },
@@ -24,7 +25,7 @@ var App = React.createClass({
         var page = <AlarmList alarms={this.state.alarms} onDeleteAlarm={this._onDeleteAlarm} goTo={this._goTo} />
         break;
       case 'form':
-        var page = <Form goTo={this._goTo} onAddAlarm={this._onAddAlarm} />
+        var page = <Form goTo={this._goTo} params={this.state.params} onEditAlarm={this._onEditAlarm} onAddAlarm={this._onAddAlarm} />
         break;
       default:
         var page = <AlarmList alarms={this.state.alarms} goTo={this._goTo} />
@@ -37,9 +38,10 @@ var App = React.createClass({
     );
   },
 
-  _goTo: function (page) {
+  _goTo: function (page, params) {
     this.setState({
-      page: page
+      page: page,
+      params: params
     });
   },
 
@@ -69,6 +71,21 @@ var App = React.createClass({
     this.xhr('post', 'alarms', newAlarm, (function (result) {
 
       var tmpAlarms = this.state.alarms.concat(result);
+      this.setState({
+        alarms: tmpAlarms
+      });
+
+      this._goTo('index');
+
+    }).bind(this));
+
+  },
+
+  _onEditAlarm: function (editAlarm) {
+    this.xhr('PATCH', 'alarms/'+editAlarm.id, editAlarm, (function (result) {
+
+      var tmpAlarms = this.state.alarms;
+      tmpAlarms[editAlarm.id] = editAlarm;
       this.setState({
         alarms: tmpAlarms
       });

@@ -14,7 +14,8 @@ var Form = React.createClass({
     return {
       name: '',
       hour: '',
-      minutes: ''
+      minutes: '',
+      days: []
     }
   },
 
@@ -26,6 +27,11 @@ var Form = React.createClass({
           <input type="text" onChange={this._onChangeName} value={this.state.name} />
           <input type="number" onChange={this._onChangeHour} value={this.state.hour} />
           <input type="number" onChange={this._onChangeMinutes} value={this.state.minutes} />
+          <DaysSelect label="Days">
+            <DaysSelectItem value="mon" onChange={this._onChangeDays}>Mon</DaysSelectItem>
+            <DaysSelectItem value="tue" onChange={this._onChangeDays}>Tue</DaysSelectItem>
+            <DaysSelectItem value="wed" onChange={this._onChangeDays}>Wed</DaysSelectItem>
+          </ DaysSelect>
           <button type="submit"></button>
         </form>
       </div>
@@ -57,13 +63,79 @@ var Form = React.createClass({
     });
   },
 
+  _onChangeDays: function (value) {
+    var tmpDays = this.state.days
+    var index = tmpDays.indexOf( value )
+
+    if( index == -1 ) {
+      tmpDays.push( value );
+    }
+    else {
+      tmpDays.splice( index, 1 );
+    }
+
+    console.log(tmpDays);
+
+    this.setState({
+      days: tmpDays
+    });
+  },
+
   _onSubmit: function (event) {
     event.preventDefault();
-  
-    this.props.onAddAlarm(this.state.name, pad(this.state.hour)+':'+pad(this.state.minutes));
+ 
+    var days = this.state.days;
+    var time = pad(this.state.hour)+':'+pad(this.state.minutes);  
+ 
+    this.props.onAddAlarm(this.state.name, time, days);
   }
 
 });
 
+var DaysSelect = React.createClass({
+
+  render: function () {
+    return (
+      <div className="daysSelect">
+        <label>{this.props.label}</label>
+        <ul>{this.props.children}</ul>
+      </div>
+    );
+  },
+
+});
+
+var DaysSelectItem = React.createClass({
+
+  getInitialState: function () {
+    return {
+      active: false
+    }
+  },
+
+  render: function () {
+
+    if( this.state.active ) {
+      var activeClass = "active";
+    }
+    else {
+      var activeClass = "";
+    }
+
+
+    return (
+      <li className={activeClass} onClick={this._onClick}>{this.props.children}</li>
+    );
+  },
+
+  _onClick: function () {
+
+    this.props.onChange( this.props.value );
+
+    this.setState({
+      active: !this.state.active
+    });
+  }
+});
 
 module.exports = Form;

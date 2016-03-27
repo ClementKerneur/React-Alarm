@@ -65,9 +65,9 @@ var App = React.createClass({
 
   },
 
-  _onAddAlarm: function (name, time) {
-    this.xhr('post', 'alarms', { name: name, time: time }, (function (result) {
-      
+  _onAddAlarm: function (name, time, days) {
+    this.xhr('post', 'alarms', { name: name, time: time, days: days }, (function (result) {
+
       var tmpAlarms = this.state.alarms.concat(result);
       this.setState({
         alarms: tmpAlarms

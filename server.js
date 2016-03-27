@@ -36,7 +36,8 @@ app.get('/alarms', function (req, res) {
 app.post('/alarms', function (req, res) {
   var newAlarm = {
     name: req.body.name,
-    time: req.body.time
+    time: req.body.time,
+    days: req.body.days
   };
   
   var resTmp = getConfig("alarms.json");

@@ -1,18 +1,9 @@
-var EventEmitter = require('events').EventEmitter;
-var _ = require('lodash');
-var Dispatcher = require('../dispatcher.js');
+var Reflux = require('reflux');
+
+var alarmAction = require( '../actions/alarmAction.js' );
 
 var mixinRequest = require( '../mixins/request.js' );
 var mixinSound = require( '../mixins/sound.js' );
-
-var alarmsStore = _.assign({
-   alarms: [{
-    name: 'sdfasd',
-    hour: 10,
-    minutes: 10,
-    days: []
-   }]
-  }, EventEmitter.prototype);
 
 
 var addAlarmRing = function(hour, minutes, soundId) {
@@ -30,65 +21,73 @@ var addAlarmRing = function(hour, minutes, soundId) {
   return false;
 }
 
-Dispatcher.register(function (action) {
-  switch (action.actionType) {
 
-    case 'ADD_ALARM':
 
-      mixinRequest.xhr('post', 'alarms', action.alarm, (function (result) {
+var alarmsStore = Reflux.createStore({
 
-        result.timer = addAlarmRing(result.hour, result.minutes, result.music);
+  mixins: [mixinRequest],
 
-        alarmsStore.alarms.push(result);
-        alarmsStore.emit('CHANGE');
+  init: function() {
+    this.alarms = [{
+      name: 'sdfasd',
+      hour: 10,
+      minutes: 10,
+      days: []
+    }];
 
-      }).bind(this));
+    this.listenTo(alarmAction.add, this.add);
+    this.listenTo(alarmAction.edit, this.edit);
+    this.listenTo(alarmAction.delete, this.delete);
+    this.listenTo(alarmAction.findAll, this.findAll);
+  },
 
-      break;
+  add: function(alarm) {
+    this.xhr('post', 'alarms', alarm, (function (result) {
 
-    case 'EDIT_ALARM':
+      result.timer = addAlarmRing(result.hour, result.minutes, result.music);
 
-      mixinRequest.xhr('PATCH', 'alarms/'+action.alarm.id, action.alarm, (function (result) {
+      this.alarms.push(result);
+      this.trigger(this.alarms);
 
-        clearTimeout(alarmsStore.alarms[result.id].timer);
-        result.alarm.timer = addAlarmRing(result.alarm.hour, result.alarm.minutes, result.alarm.music);
+    }).bind(this));
+  },
 
-        alarmsStore.alarms[result.id] = result.alarm;
-        alarmsStore.emit('CHANGE');
+  edit: function(alarm) {
+    this.xhr('PATCH', 'alarms/'+alarm.id, alarm, (function (result) {
 
-      }));
+      clearTimeout(this.alarms[result.id].timer);
+      result.alarm.timer = addAlarmRing(result.alarm.hour, result.alarm.minutes, result.alarm.music);
 
-      break;
+      this.alarms[result.id] = result.alarm;
+      this.trigger(this.alarms);
 
-    case 'DELETE_ALARM':
+    }).bind(this));
+  },
 
-      mixinRequest.xhr('delete', 'alarms/'+action.id, null, (function (result) {
+  delete: function(id) {
+    this.xhr('delete', 'alarms/'+id, null, (function (result) {
 
-        clearTimeout(alarmsStore.alarms[result].timer);
+      clearTimeout(this.alarms[result].timer);
 
-        alarmsStore.alarms.splice(result, 1);
-        alarmsStore.emit('CHANGE');
+      this.alarms.splice(result, 1);
+      this.trigger(this.alarms);
 
-      }));
+    }).bind(this));
+  },
 
-      break;
+  findAll: function() {
+    this.xhr('get', 'alarms', null, (function (result) {
 
-    case 'FIND_ALARMS':
+      for (var i = 0; i < result.length; i++) {
+        result[i].timer = addAlarmRing(result[i].hour, result[i].minutes, result[i].music);
+      }
 
-      mixinRequest.xhr('get', 'alarms', null, (function (result) {
+      this.alarms = result;
+      this.trigger(this.alarms);
 
-        for (var i = 0; i < result.length; i++) {
-          result[i].timer = addAlarmRing(result[i].hour, result[i].minutes, result[i].music);
-        }
-
-        alarmsStore.alarms = result;
-        alarmsStore.emit('CHANGE');
-      }));
-      break;
-
-    default:
-      break;
+    }).bind(this));
   }
+
 });
 
 module.exports = alarmsStore;

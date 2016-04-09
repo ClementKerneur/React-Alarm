@@ -1,7 +1,10 @@
 var React = require( 'react' );
+var Reflux = require('reflux');
+
 var mixinSound = require( '../mixins/sound.js' );
 
 var alarmAction = require( '../actions/alarmAction.js' );
+var alarmsStore = require( '../stores/alarmStore.js' );
 
 var Form = React.createClass({
   mixins: [ mixinSound ],

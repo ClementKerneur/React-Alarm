@@ -1,6 +1,8 @@
 var React = require( 'react' );
 var mixinSound = require( '../mixins/sound.js' );
 
+var alarmAction = require( '../actions/alarmAction.js' );
+
 var Form = React.createClass({
   mixins: [ mixinSound ],
 
@@ -145,7 +147,10 @@ var Form = React.createClass({
   _onSubmit: function (event) {
     event.preventDefault();
 
-    this.props.params ? this.props.onEditAlarm(this.state) : this.props.onAddAlarm(this.state);
+    this.state.hour = Math.round(this.state.hour);
+    this.state.minutes = Math.round(this.state.minutes);
+    this.props.params ? alarmAction.edit(this.state) : alarmAction.add(this.state);
+    this._onClickBack();
   },
 
   _onClickBack: function() {

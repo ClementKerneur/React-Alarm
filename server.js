@@ -50,7 +50,12 @@ app.patch('/alarms/:id', function (req, res) {
   resTmp[req.params.id] = editAlarm;
   fs.writeFile( 'alarms.json', JSON.stringify(resTmp) );
 
-  res.json( editAlarm );
+  var response = {
+    id: req.params.id,
+    alarm: editAlarm
+  }
+
+  res.json( response );
 });
 
 app.delete('/alarms/:id', function (req, res) {

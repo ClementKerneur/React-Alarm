@@ -1,10 +1,12 @@
 var React = require( 'react' );
 
+var alarmAction = require( '../actions/alarmAction.js' );
+
 var AlarmList = React.createClass({
 
   render: function() {
     var alarms = this.props.alarms.map( (function(data, index) {
-      return <AlarmListItem data={data} key={index} index={index} goTo={this.props.goTo} onDelete={this.props.onDeleteAlarm} />
+      return <AlarmListItem data={data} key={index} index={index} goTo={this.props.goTo} />
     }).bind(this) );
 
     return (
@@ -67,7 +69,7 @@ var AlarmListItem = React.createClass({
   },
 
   _onDelete: function () {
-    this.props.onDelete(this.props.index);
+    alarmAction.delete(this.props.index);
   },
 
   _onEdit: function() {

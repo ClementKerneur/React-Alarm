@@ -2,6 +2,7 @@ build/*
 node_modules/
 font/*
 alarms.json
+npm-debug.log
 
 *.swo
 *.swp
